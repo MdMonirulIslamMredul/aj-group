@@ -50,7 +50,7 @@
         }
 
         .swiper-slider-hero .bg-overlay {
-            background: rgba(26, 26, 27, 0.5);
+            background: rgba(26, 26, 27, 0.15);
             position: absolute;
             top: 0;
             left: 0;
@@ -386,6 +386,23 @@
             line-height: 1.8;
         }
 
+        /* ===== BOOTSTRAP ACCORDION STYLING ===== */
+        .accordion-button::after {
+            content: "+" !important;
+            font-weight: bold !important;
+            font-size: 1.4rem !important;
+            color: var(--primary-color) !important;
+            background-image: none !important;
+            width: auto !important;
+            height: auto !important;
+            transform: none !important;
+            position: static !important;
+        }
+
+        .accordion-button:not(.collapsed)::after {
+            content: "−" !important;
+        }
+
         /* ===== TESTIMONIALS ===== */
         .client-testi {
             padding: 0;
@@ -462,8 +479,8 @@
             align-items: center;
             justify-content: center;
             position: fixed;
-            bottom: 25px;
-            right: 40px;
+            bottom: 100px;
+            right: 30px;
             z-index: 99;
             border-radius: 50%;
             transition: all 0.3s ease;
@@ -942,7 +959,7 @@
 
                                     <div class="d-grid gap-2 mt-4">
                                         <a href="tel:{{ App\Models\WebsiteLink::latest()->first()->phone }}"
-                                            class="btn btn-secondary">
+                                            class="btn btn-secondary" style="background-color: #9dff5238 !important">
                                             <i class="mdi mdi-phone me-1"></i>Call Now
                                         </a>
                                         <a href="{{ route('contact.us') }}" class="btn-modern"
@@ -1274,31 +1291,46 @@
     </div>
     <!--end container-->
     {{-- various projects end --}}
+
+
     <section class="section">
-
         <div class="container">
-            <div class="row g-4">
-                <div class="col-lg-12 col-md-12 col-12">
-                    <div class="row g-4">
-                        @foreach ($video_gallery as $item)
-                            <div class="col-lg-6">
-                                <div class="card" style="">
-                                    <iframe width="100%" height="350"
-                                        src="https://www.youtube.com/embed/{{ $item->video_link }}">
-                                    </iframe>
-
-                                </div>
-
-                            </div><!--end col-->
-                        @endforeach
-
-                    </div><!--end row-->
-
-
+            <div class="row justify-content-center mb-5">
+                <div class="col-12">
+                    <div class="section-title text-center">
+                        <span class="text-uppercase fw-semibold"
+                            style="font-size: 12px; letter-spacing: 2px; color: var(--secondary-color);">Media</span>
+                        <h1>Video Gallery</h1>
+                        <div class="divider"></div>
+                        <p class="my-4 mx-auto" style="text-align:center; max-width:700px; color: var(--text-muted);">
+                            Explore our curated collection of property walkthroughs, project updates, and client
+                            testimonials.</p>
+                    </div>
                 </div>
-
-
             </div>
+
+            <div class="row g-4">
+                @foreach ($video_gallery as $item)
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="card border-0 shadow-sm overflow-hidden">
+                            <div class="ratio ratio-16x9">
+                                <iframe src="https://www.youtube.com/embed/{{ $item->video_link }}"
+                                    title="{{ $item->title_english ?? ($item->title ?? 'Video') }}"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen loading="lazy"></iframe>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="mb-0">{{ $item->title_english ?? ($item->title ?? 'Video') }}</h5>
+                                @if (!empty($item->short_text_eng))
+                                    <p class="mb-0 text-muted small">
+                                        {{ \Illuminate\Support\Str::limit(strip_tags($item->short_text_eng), 120) }}
+                                    </p>
+                                @endif
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                @endforeach
+            </div><!--end row-->
         </div><!--end container-->
     </section><!--end section-->
 
@@ -1348,34 +1380,31 @@
         </div><!--end row-->
 
         <div class="container">
-            <div class="col-12 col-lg-8 mx-auto">
-                @foreach ($faqs as $faq)
-                    <button class="accordion">{{ $faq->faq_question }}</button>
-                    <div class="panel">
-                        <p>{{ $faq->faq_ans }}</p>
-                    </div>
-                @endforeach
-                <!--<button class="accordion">Uncompromised Safety</button>-->
-                <!--<div class="panel">-->
-                <!--  <p>We design and develop buildings in line with the compliance guidelines stated in the National Building Code. We never deviate from the standards and best practices in the industry for providing safe addresses to our esteemed clients. Therefore, our buildings are capable of withstanding the code-specified natural forces like earthquakes.</p>-->
-                <!--</div>-->
-
-                <!--<button class="accordion">Best Construction Materials</button>-->
-                <!--<div class="panel">-->
-                <!--  <p>As a committed real estate company, we never compromise with the quality of construction materials. We assure that price hike or any other situation in the market don’t make us deviate from materials quality. Since we use the best materials, our buildings become stronger, more sustainable without harming the environment to a significant extent.</p>-->
-                <!--</div>-->
-                <!--<button class="accordion">On-Time Delivery</button>-->
-                <!--<div class="panel">-->
-                <!--  <p>On-time delivery is one of our motos while dealing in real estate business. We are always committed to satisfying you with on-time delivery service.</p>-->
-                <!--</div>-->
-                <!--<button class="accordion">World-Class Consultants</button>-->
-                <!--<div class="panel">-->
-                <!--  <p>We are endowed with world-class real estate consultants who ensure the best service in the domain.</p>-->
-                <!--</div>-->
-                <!--<button class="accordion">Prestigious Landmarks</button>-->
-                <!--<div class="panel">-->
-                <!--  <p>Since the very beginning, Assure Group has been passing many prestigious landmarks. One of the biggest landmarks that we have touched is evolving as a trusted real estate development company in Bangladesh.</p>-->
-                <!--</div>-->
+            <div class="col-12 col-lg-10 mx-auto">
+                <div id="faqAccordion" class="accordion"
+                    style="border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    @foreach ($faqs as $index => $faq)
+                        <div class="accordion-item" style="border: none; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                            <h2 class="accordion-header" id="heading{{ $index }}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse{{ $index }}" aria-expanded="false"
+                                    aria-controls="collapse{{ $index }}"
+                                    style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); color: var(--dark-color); font-weight: 600; border: none; padding: 20px 30px; font-size: 1.1rem;">
+                                    <i class="mdi mdi-help-circle-outline me-3"
+                                        style="color: var(--primary-color); font-size: 1.3rem;"></i>
+                                    {{ $faq->faq_question }}
+                                </button>
+                            </h2>
+                            <div id="collapse{{ $index }}" class="accordion-collapse collapse"
+                                aria-labelledby="heading{{ $index }}" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body"
+                                    style="padding: 20px 30px; background: #fff; color: var(--text-muted); line-height: 1.7; font-size: 1rem;">
+                                    {!! $faq->faq_ans !!}
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div><!--end col-->
         </div><!--end row-->
     </div><!--end container-->
@@ -1473,24 +1502,6 @@
 
     <!-- JAVASCRIPTS -->
     @include('frontend.includes.script')
-
-    {{-- faq js --}}
-    <script>
-        var acc = document.getElementsByClassName("accordion");
-        var i;
-
-        for (i = 0; i < acc.length; i++) {
-            acc[i].addEventListener("click", function() {
-                this.classList.toggle("active");
-                var panel = this.nextElementSibling;
-                if (panel.style.maxHeight) {
-                    panel.style.maxHeight = null;
-                } else {
-                    panel.style.maxHeight = panel.scrollHeight + "px";
-                }
-            });
-        }
-    </script>
 </body>
 
 <!-- Mirrored from shreethemes.in/towntor/layouts/index-three.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 21 Nov 2023 05:10:06 GMT -->
