@@ -735,7 +735,8 @@
             aria-labelledby="buy-login">
             <form class="card-body text-start" method="get" action="{{ url('/serch-property/type/location') }}">
                 @csrf
-                <h4 class="mb-4" style="color: var(--dark-color); font-weight: 700;">Find Your Perfect Property</h4>
+                <h4 class="mb-4" style="color: var(--dark-color); font-weight: 700;">Find The Best Property For You
+                </h4>
                 <div class="text-start">
                     <div class="row g-3 text-cneter">
                         <div class="col-lg-6 col-md-6">
@@ -748,7 +749,7 @@
                             <div class="form-group">
                                 <label class="form-label mb-2">Property Type</label>
                                 <select class="form-select" name="property_type">
-                                    <option disabled selected>Select property type</option>
+                                    <option disabled selected>Select Property Type</option>
                                     <option value="Apartment">Apartment </option>
                                     <option value="Land">Land </option>
                                 </select>
